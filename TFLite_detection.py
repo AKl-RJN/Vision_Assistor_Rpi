@@ -1,4 +1,4 @@
-# Import packages
+
 import os
 import argparse
 import cv2
@@ -11,7 +11,7 @@ from picamera import PiCamera
 from gtts import gTTS
 import pygame
 language = 'en'
-#import webcamvideostream
+
 from pivideostream import PiVideoStream
 from imutils.video.videostream import VideoStream
 
@@ -97,9 +97,9 @@ else:
     if use_TPU:
         from tensorflow.lite.python.interpreter import load_delegate
 
-# If using Edge TPU, assign filename for Edge TPU model
+
 if use_TPU:
-    # If user has specified the name of the .tflite file, use that name, otherwise use default 'edgetpu.tflite'
+   
     if (GRAPH_NAME == 'detect.tflite'):
         GRAPH_NAME = 'edgetpu.tflite'       
 
@@ -149,7 +149,7 @@ freq = cv2.getTickFrequency()
 videostream = VideoStream(usePiCamera=True,framerate=30).start()
 time.sleep(1)
 
-#for frame1 in camera.capture_continuous(rawCapture, format="bgr",use_video_port=True):
+
 while True:
 
     
@@ -176,7 +176,7 @@ while True:
     boxes = interpreter.get_tensor(output_details[0]['index'])[0] # Bounding box coordinates of detected objects
     classes = interpreter.get_tensor(output_details[1]['index'])[0] # Class index of detected objects
     scores = interpreter.get_tensor(output_details[2]['index'])[0] # Confidence of detected objects
-    #num = interpreter.get_tensor(output_details[3]['index'])[0]  # Total number of detected objects (inaccurate and not needed)
+   
 
     
     for i in range(len(scores)):
@@ -191,10 +191,9 @@ while True:
             cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (10, 255, 0), 2)
 
             
-            object_name = labels[int(classes[i])] # Look up object name from "labels" array using class index
+            object_name = labels[int(classes[i])]
             mytext = str(object_name)
-            #myobj = gTTS(text=mytext, lang=language, slow=False)
-            #myobj.save("welcome.mp3")
+     
             if mytext == "person":
                 pygame.mixer.init()
                 pygame.mixer.music.load("person.mp3")
@@ -253,10 +252,10 @@ while True:
                 pygame.mixer.music.load("elephant.mp3")
                 pygame.mixer.music.play()
             
-            label = '%s: %d%%' % (object_name, int(scores[i]*100)) # Example: 'person: 72%'
+            label = '%s: %d%%' % (object_name, int(scores[i]*100)) 
             labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2) 
             label_ymin = max(ymin, labelSize[1] + 10) 
-            cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine-10), (255, 255, 255), cv2.FILLED) # Draw white box to put label text in
+            cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine-10), (255, 255, 255), cv2.FILLED) 
             cv2.putText(frame,label,(xmin, label_ymin-7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2) 
 
     
@@ -270,7 +269,6 @@ while True:
     time1 = (t2-t1)/freq
     frame_rate_calc= 1/time1
 
-    # Press 'q' to quit
     if cv2.waitKey(1) == ord('q'):
         break
 
