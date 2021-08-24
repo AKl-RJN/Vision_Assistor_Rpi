@@ -1,4 +1,4 @@
-# import the necessary packages
+
 import webcamvideostream
 
 class VideoStream:
