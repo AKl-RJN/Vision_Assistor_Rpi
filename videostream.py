@@ -13,7 +13,7 @@ class VideoStream:
 			self.stream = PiVideoStream(resolution=resolution,
 				framerate=framerate, **kwargs)
 
-		# or we are using OpenCV so initialize the webcam
+		# or we use the webcam
 		
 		else:
 			self.stream = WebcamVideoStream(src=src)
